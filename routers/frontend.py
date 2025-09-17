@@ -12,7 +12,10 @@ def index(request: Request):
     user = request.session.get('user')
     if not user:
         return RedirectResponse(url="/login")
-    return templates.TemplateResponse("index.html", {"request": request})
+    picture = user.get("picture")
+    email = user.get("email")
+    name = user.get("name")
+    return templates.TemplateResponse("index.html", {"request": request, "picture":picture, "email":email, "name":name})
 
 @router.get("/login", response_class=HTMLResponse)
 def login_page(request: Request):
@@ -23,7 +26,10 @@ def upload_page(request: Request):
     user = request.session.get('user')
     if not user:
         return RedirectResponse(url="/login")
-    return templates.TemplateResponse("upload.html", {"request": request})
+    picture = user.get("picture")
+    email = user.get("email")
+    name = user.get("name")
+    return templates.TemplateResponse("upload.html", {"request": request, "picture":picture, "email":email, "name":name})
 
 
 
