@@ -2,3 +2,4 @@
 __pycache__
 send-repo.*
 sr-ignore.txt
+.env

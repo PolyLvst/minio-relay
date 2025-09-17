@@ -1,8 +1,14 @@
+import os
 from fastapi import FastAPI
+from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
+from starlette.middleware.sessions import SessionMiddleware
 from service.minio_file import MinIOFileService
 import routers
 import routers.minio_file
+import routers.frontend
+from dotenv import load_dotenv
+load_dotenv()
 
 class MinIORelayBackend:
     def __init__(self):
@@ -11,6 +17,9 @@ class MinIORelayBackend:
 
     def register_routers(self):
         self.__app.include_router(router=routers.minio_file.router, prefix=self.__api_prefix, tags=["File"])
+        self.__app.include_router(router=routers.frontend.router, tags=["Frontend"])
+        # ... Static Files ...
+        self.__app.mount("/static", StaticFiles(directory="static"), name="static")
     
     def setup_config_app(self):
         self.__app.add_middleware(
@@ -20,6 +29,7 @@ class MinIORelayBackend:
             allow_methods=["*"],
             allow_headers=["*"],
         )
+        self.__app.add_middleware(SessionMiddleware, secret_key=os.getenv("SECRET_KEY"))
     
     def startup_event(self):
         self.__app.add_event_handler("startup", MinIOFileService.create_bucket_startup)

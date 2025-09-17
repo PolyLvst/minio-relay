@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MinIO & FastAPI</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+      body {
+        font-family: 'Inter', sans-serif;
+      }
+      .google-btn {
+          background-color: #4285F4;
+          color: white;
+          transition: background-color 0.2s;
+      }
+      .google-btn:hover {
+          background-color: #357ae8;
+      }
+    </style>
+</head>
+<body class="bg-gray-100 h-screen flex justify-center items-center">
+
+    <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-sm">
+        <div class="flex items-center justify-center space-x-4">
+            <!-- MinIO Logo -->
+            <img src="static/assets/MinIO-Logo-Color.png" alt="MinIO Logo" class="h-16">
+        </div>
+
+        <div class="flex items-center my-6">
+            <hr class="flex-grow border-gray-300">
+            <span class="px-3 text-gray-500 text-sm"> Sign In </span>
+            <hr class="flex-grow border-gray-300">
+        </div>
+
+        <!-- Sign in with Google Button -->
+        <button id="google-signin-btn" class="w-full flex items-center justify-center space-x-2 py-3 rounded-lg google-btn font-bold">
+            <i class="fab fa-google text-white text-xl"></i>
+            <span>Sign in with Google</span>
+        </button>
+    </div>
+
+    <script>
+        const googleBtn = document.getElementById('google-signin-btn');
+
+        googleBtn.addEventListener('click', () => {
+            // Redirect the user to the specified URL
+            window.location.href = '/login-google';
+        });
+    </script>
+
+</body>
+</html>

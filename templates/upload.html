@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+      body {
+        font-family: 'Inter', sans-serif;
+      }
+    </style>
+</head>
+<body class="bg-gray-100 min-h-screen flex flex-col">
+
+    <!-- Mobile sidebar toggle button -->
+    <div class="lg:hidden p-4 bg-gray-800 text-white flex justify-between items-center">
+        <h1 class="text-xl font-semibold">Dashboard</h1>
+        <button id="sidebar-toggle-btn" class="text-white focus:outline-none">
+            <i class="fas fa-bars text-lg"></i>
+        </button>
+    </div>
+
+    <div class="flex flex-1">
+        <!-- Sidebar -->
+        <aside id="sidebar" class="bg-gray-800 text-white w-64 p-6 space-y-6 flex-shrink-0 lg:flex flex-col lg:relative fixed inset-y-0 left-0 transform -translate-x-full lg:translate-x-0 transition-transform duration-200 ease-in-out z-50">
+            <h2 class="text-2xl font-bold mb-4">Dashboard</h2>
+            
+            <!-- User Profile Section -->
+            <div class="flex items-center space-x-4 mb-6 p-2 rounded-lg bg-gray-700">
+                <img class="w-12 h-12 rounded-full ring-2 ring-gray-600" src="https://placehold.co/48x48/6B7280/FFFFFF?text=User" alt="User Profile Picture">
+                <div class="flex flex-col">
+                    <span class="text-white font-medium">User</span>
+                    <span class="text-gray-400 text-sm">user@example.com</span>
+                </div>
+            </div>
+
+            <nav>
+                <a href="/" class="flex items-center space-x-3 p-2 rounded-lg transition-colors duration-200 hover:bg-gray-700">
+                    <i class="fas fa-home text-lg"></i>
+                    <span class="font-medium">Home</span>
+                </a>
+                <a href="#" class="flex items-center space-x-3 p-2 rounded-lg transition-colors duration-200 hover:bg-gray-700 bg-gray-700 font-semibold">
+                    <i class="fas fa-upload text-lg"></i>
+                    <span class="font-medium">Upload</span>
+                </a>
+                <a href="/logout" class="flex items-center space-x-3 p-2 rounded-lg transition-colors duration-200 hover:bg-gray-700">
+                    <i class="fas fa-sign-out-alt text-lg"></i>
+                    <span class="font-medium">Logout</span>
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="flex-1 p-8 overflow-y-auto">
+            <div class="bg-white p-6 rounded-lg shadow-lg">
+                <h1 class="text-3xl font-bold mb-6 text-gray-800">Halaman Upload</h1>
+                
+                <form class="space-y-4">
+                    <!-- File Input -->
+                    <div>
+                        <label for="file-upload" class="block text-sm font-medium text-gray-700 mb-1">Pilih File</label>
+                        <input type="file" id="file-upload" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 block">
+                    </div>
+
+                    <!-- URL Source Input -->
+                    <div>
+                        <label for="url-source" class="block text-sm font-medium text-gray-700 mb-1">URL Source File</label>
+                        <input type="text" id="url-source" placeholder="Contoh: https://example.com/file.pdf" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                    </div>
+
+                    <!-- Uploader Name (read-only) -->
+                    <div>
+                        <label for="uploader-name" class="block text-sm font-medium text-gray-700 mb-1">Nama Pengupload</label>
+                        <input type="text" id="uploader-name" readonly class="w-full px-3 py-2 border border-gray-300 rounded-md bg-gray-100 shadow-sm">
+                    </div>
+                    
+                    <!-- Submit Button -->
+                    <div class="pt-4">
+                        <button type="submit" class="w-full bg-blue-600 text-white py-2 px-4 rounded-lg font-semibold hover:bg-blue-700 transition duration-300">
+                            Upload
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </main>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white text-center p-4 mt-auto">
+        <span>© 2025 Nusantara Sinergi Teknik</span>
+    </footer>
+
+    <!-- Sidebar Toggle & Form Script -->
+    <script>
+        const sidebar = document.getElementById('sidebar');
+        const sidebarToggleBtn = document.getElementById('sidebar-toggle-btn');
+        const uploaderNameInput = document.getElementById('uploader-name');
+
+        // Sidebar logic
+        sidebarToggleBtn.addEventListener('click', () => {
+            sidebar.classList.toggle('-translate-x-full');
+            sidebar.classList.toggle('transform');
+        });
+
+        document.addEventListener('click', (event) => {
+            const isClickInside = sidebar.contains(event.target) || sidebarToggleBtn.contains(event.target);
+            if (!isClickInside && !sidebar.classList.contains('-translate-x-full')) {
+                sidebar.classList.add('-translate-x-full');
+                sidebar.classList.add('transform');
+            }
+        });
+
+        window.addEventListener('resize', () => {
+            if (window.innerWidth >= 1024) {
+                sidebar.classList.remove('-translate-x-full', 'transform');
+            } else {
+                sidebar.classList.add('-translate-x-full', 'transform');
+            }
+        });
+        
+        // Form field auto-population
+        window.onload = function() {
+            // Placeholder for user's name
+            uploaderNameInput.value = "John Doe"; 
+        };
+    </script>
+
+</body>
+</html>
