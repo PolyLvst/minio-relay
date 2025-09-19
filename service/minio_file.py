@@ -1,5 +1,5 @@
 from datetime import timedelta
-from http.client import HTTPException
+from fastapi import HTTPException
 from config.minio_client import MinioClient
 from fastapi import UploadFile
 from minio.error import S3Error
@@ -26,7 +26,7 @@ class MinIOFileService:
             return MinIOUploadResponse(filename=filename, url=url).model_dump()
         except S3Error as e:
             raise HTTPException(status_code=500, detail=str(e))
-    
+
     def create_bucket_startup():
         try:
             if not MinioClient.client.bucket_exists(MinioClient.bucket_name):

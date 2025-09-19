@@ -26,3 +26,21 @@ services:
       MINIO_ROOT_USER: minioadmin
       MINIO_ROOT_PASSWORD: minioadmin
       MINIO_RELAY_BUCKET_NAME: miniorelay
+
+  db:
+    image: postgres
+    restart: unless-stopped
+    shm_size: 128mb
+    # ports:
+    #   - "5432:5432"
+    volumes:
+      - ./postgres_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: minio_relay
+      POSTGRES_PASSWORD: postgres
+
+  # adminer:
+  #   image: adminer
+  #   restart: unless-stopped
+  #   ports:
+  #     - "8080:8080"

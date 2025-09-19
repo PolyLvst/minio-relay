@@ -7,6 +7,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/htmx.org@2.0.7/dist/htmx.min.js" integrity="sha384-ZBXiYtYQ6hJ2Y0ZNoYuI+Nq5MqWBr+chMrS/RkXpNzQCApHEhOt2aY8EJgqwHLkJ" crossorigin="anonymous"></script>
     <style>
       body {
         font-family: 'Inter', sans-serif;
@@ -30,8 +31,8 @@
             
             <!-- User Profile Section -->
             <div class="flex items-center space-x-4 mb-6 p-2 rounded-lg bg-gray-700">
-                <img class="w-12 h-12 rounded-full ring-2 ring-gray-600" src="{{ picture }}" alt="User Profile Picture">
-                <!-- <img class="w-12 h-12 rounded-full ring-2 ring-gray-600" src="https://placehold.co/48x48/6B7280/FFFFFF?text=User" alt="User Profile Picture"> -->
+                <!-- <img class="w-12 h-12 rounded-full ring-2 ring-gray-600" src="{{ picture }}" alt="User Profile Picture"> -->
+                <img class="w-12 h-12 rounded-full ring-2 ring-gray-600" src="https://placehold.co/48x48/6B7280/FFFFFF?text=User" alt="User Profile Picture">
                 <div class="flex flex-col min-w-0">
                     <span class="text-white font-medium">{{ name }}</span>
                     <span class="text-gray-400 text-sm truncate overflow-hidden">{{ email }}</span>
@@ -64,34 +65,32 @@
                     <table class="min-w-full bg-white rounded-lg">
                         <thead class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
                             <tr>
-                                <th class="py-3 px-6 text-left">Link Upload File MinIO</th>
-                                <th class="py-3 px-6 text-left">Link URL</th>
+                                <th class="py-3 px-6 text-left">Download</th>
                                 <th class="py-3 px-6 text-left">Uploader</th>
                                 <th class="py-3 px-6 text-left">Tanggal Upload</th>
                             </tr>
                         </thead>
-                        <tbody class="text-gray-600 text-sm font-light">
+                        <tbody 
+                            id="upload-tbody"
+                            class="text-gray-600 text-sm font-light"
+                            hx-get="/data-upload-list?page=1&per_page=10"
+                            hx-trigger="load"
+                            hx-target="this"
+                            hx-swap="innerHTML">
+                            <!-- Placeholder -->
                             <tr class="border-b border-gray-200 hover:bg-gray-100">
-                                <td class="py-3 px-6 text-left whitespace-nowrap"><a href="#" class="text-blue-500 hover:underline">File A</a></td>
-                                <td class="py-3 px-6 text-left"><a href="#" class="text-blue-500 hover:underline">https://example.com/file_a</a></td>
-                                <td class="py-3 px-6 text-left">John Doe</td>
-                                <td class="py-3 px-6 text-left">15 September 2025</td>
-                            </tr>
-                            <tr class="border-b border-gray-200 hover:bg-gray-100">
-                                <td class="py-3 px-6 text-left whitespace-nowrap"><a href="#" class="text-blue-500 hover:underline">File B</a></td>
-                                <td class="py-3 px-6 text-left"><a href="#" class="text-blue-500 hover:underline">https://example.com/file_b</a></td>
-                                <td class="py-3 px-6 text-left">Jane Smith</td>
-                                <td class="py-3 px-6 text-left">14 September 2025</td>
-                            </tr>
-                            <tr class="border-b border-gray-200 hover:bg-gray-100">
-                                <td class="py-3 px-6 text-left whitespace-nowrap"><a href="#" class="text-blue-500 hover:underline">File C</a></td>
-                                <td class="py-3 px-6 text-left"><a href="#" class="text-blue-500 hover:underline">https://example.com/file_c</a></td>
-                                <td class="py-3 px-6 text-left">Peter Jones</td>
-                                <td class="py-3 px-6 text-left">13 September 2025</td>
+                                <td class="py-3 px-6 text-left whitespace-nowrap">
+                                    <a href="#" class="text-blue-500 hover:underline">Loading...</a>
+                                </td>
+                                <td class="py-3 px-6 text-left">Loading...</td>
+                                <td class="py-3 px-6 text-left">Loading...</td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
+
+                <!-- Pagination will be inserted here -->
+                <div id="pagination-controls" class="flex justify-center mt-4 space-x-2"></div>
             </div>
         </main>
     </div>

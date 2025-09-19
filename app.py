@@ -4,6 +4,8 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
 from starlette.middleware.sessions import SessionMiddleware
 from service.minio_file import MinIOFileService
+from config.connection import engine
+from model.database_model import Base
 import routers
 import routers.minio_file
 import routers.frontend
@@ -16,7 +18,7 @@ class MinIORelayBackend:
         self.__app = FastAPI(title="Relay MinIO FastAPI Backend", version="1.0.0 reminio")
 
     def register_routers(self):
-        self.__app.include_router(router=routers.minio_file.router, prefix=self.__api_prefix, tags=["File"])
+        # self.__app.include_router(router=routers.minio_file.router, prefix=self.__api_prefix, tags=["File"])
         self.__app.include_router(router=routers.frontend.router, tags=["Frontend"])
         # ... Static Files ...
         self.__app.mount("/static", StaticFiles(directory="static"), name="static")
@@ -40,5 +42,6 @@ class MinIORelayBackend:
         self.setup_config_app()
         return self.__app
 
+Base.metadata.create_all(bind=engine)
 MinIORelay_backend = MinIORelayBackend()
 app = MinIORelay_backend.get_app()
