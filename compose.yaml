@@ -19,6 +19,7 @@ services:
     build: .
     depends_on:
       - minio
+      - db
     ports:
       - "8000:8000"
     environment:

@@ -3,3 +3,5 @@ __pycache__
 send-repo.*
 sr-ignore.txt
 .env
+postgres_data
+minio_data

@@ -52,7 +52,7 @@ def upload_file(request: Request, file: UploadFile = File(...), uploader: str = 
     name = user.get("name")
     bucket_name = MinioClient.bucket_name
     is_success = FrontendService.upload(db=db, bucket_name=bucket_name, file=file, uploader=uploader, email=email)
-    return templates.TemplateResponse("upload.html", {"request": request, "is_success": is_success, "picture":picture, "email":email, "name":name})
+    return templates.TemplateResponse("index.html", {"request": request, "is_success": is_success, "picture":picture, "email":email, "name":name})
 
 @router.get("/data-upload-list", response_class=HTMLResponse)
 def get_data_upload_list(
