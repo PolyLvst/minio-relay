@@ -78,12 +78,23 @@ def get_data_upload_list(
     rows_html = ""
     for item in uploads:
         rows_html += f"""
-        <tr class="border-b border-gray-200 hover:bg-gray-100">
+        <tr class="border-b border-gray-200 hover:bg-gray-100" id="row-{item.id}">
             <td class="py-3 px-6 text-left whitespace-nowrap">
                 <a href="/download/file-id/{item.id}" class="text-blue-500 hover:underline">{item.filename}</a>
             </td>
             <td class="py-3 px-6 text-left">{item.uploader}</td>
-            <td class="py-3 px-6 text-left">{item.created_at.strftime("%Y-%m-%d %H:%M")}</td>
+            <td class="py-3 px-6 text-left">{FrontendService.convert_utc_to_jakarta(item.created_at).strftime("%Y-%m-%d %H:%M")}</td>
+            <td class="py-3 px-6 text-left">
+                <button 
+                    class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded"
+                    hx-confirm="Are you sure?"
+                    hx-delete="/delete-upload/{item.id}"
+                    hx-target="#row-{item.id}"
+                    hx-swap="outerHTML"
+                >
+                    Delete
+                </button>
+            </td>
         </tr>
         """
 
@@ -122,6 +133,16 @@ def download_file_by_id(request: Request, file_id:int, db: Session = Depends(get
     expire_seconds = 43200 # 12 Hour
     generated_url = FrontendService.download(db=db, bucket_name=bucket_name, expire_seconds=expire_seconds, file_id=file_id)
     return RedirectResponse(url=generated_url)
+
+@router.delete("/delete-upload/{file_id}")
+def delete_upload(request: Request, file_id: int, db: Session = Depends(get_db)):
+    user = request.session.get('user')
+    if not user:
+        return RedirectResponse(url="/login")
+    bucket_name = MinioClient.bucket_name
+    FrontendService.delete(db=db, bucket_name=bucket_name, file_id=file_id)
+    # Respond with empty string so row is removed
+    return HTMLResponse("")
 
 
 @router.get('/logout')

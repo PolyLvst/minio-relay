@@ -67,7 +67,8 @@
                             <tr>
                                 <th class="py-3 px-6 text-left">Download</th>
                                 <th class="py-3 px-6 text-left">Uploader</th>
-                                <th class="py-3 px-6 text-left">Tanggal Upload</th>
+                                <th class="py-3 px-6 text-left">Uploaded at</th>
+                                <th class="py-3 px-6 text-left">Actions</th>
                             </tr>
                         </thead>
                         <tbody 
@@ -78,12 +79,23 @@
                             hx-target="this"
                             hx-swap="innerHTML">
                             <!-- Placeholder -->
-                            <tr class="border-b border-gray-200 hover:bg-gray-100">
+                            <tr class="border-b border-gray-200 hover:bg-gray-100" id="row-loading">
                                 <td class="py-3 px-6 text-left whitespace-nowrap">
                                     <a href="#" class="text-blue-500 hover:underline">Loading...</a>
                                 </td>
                                 <td class="py-3 px-6 text-left">Loading...</td>
                                 <td class="py-3 px-6 text-left">Loading...</td>
+                                <td class="py-3 px-6 text-left">
+                                    <button 
+                                        class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded"
+                                        hx-confirm="Are you sure?"
+                                        hx-delete="#"
+                                        hx-target="#row-loading"
+                                        hx-swap="outerHTML"
+                                    >
+                                        Delete
+                                    </button>
+                                </td>
                             </tr>
                         </tbody>
                     </table>
